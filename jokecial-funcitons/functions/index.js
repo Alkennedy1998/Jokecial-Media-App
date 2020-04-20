@@ -16,7 +16,7 @@ var firebaseConfig = {
 }
 
 const firebase = require('firebase');
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
 
 
 //Get all jokes route
