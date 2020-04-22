@@ -4,8 +4,9 @@ const config = require('../util/config')
 const firebase = require('firebase')
 firebase.initializeApp(config)
 
-const { validateSignupData, validateLogInData} = require('../util/validators')
+const { validateSignUpData, validateLoginData, reduceUserDetails} = require("../util/validators")
 
+//Sign user up
 exports.signup = (req,res)=>{
     const newUser={
         email:req.body.email,
@@ -15,13 +16,14 @@ exports.signup = (req,res)=>{
 
     };
 
-    const { valid,errors } = validateSignupData(newUser)
+    const { valid,errors } = validateSignUpData(newUser);
 
      
     //Check if inputs are valid
     if(!valid) return res.status(400).json(errors);
 
-    const noImg = 'no-image.png'
+    const noImg = 'no-image.png';
+
     let token,userId;
     db.doc(`/users/${newUser.handle}`).get()
     .then(doc=>{
@@ -62,6 +64,7 @@ exports.signup = (req,res)=>{
      })
 }
 
+//Log user in
 exports.login = (req,res)=>{
     const user={
         email:req.body.email,
@@ -89,6 +92,45 @@ exports.login = (req,res)=>{
     });
 }
 
+//Add user details
+exports.addUserDetails = (req,res)=>{
+    let userDetails = reduceUserDetails(req.body)
+
+    db.doc(`/users/${req.user.handle}`).update(userDetails)
+        .then(()=>{
+            return res.json({message: "details added successfully"})
+        })
+        .catch(err=>{
+            console.error(err)
+            return res.status(500).json({error:err.code})
+        })
+}
+
+//Get own user details
+
+exports.getAuthenticatedUser = (req,res)=>{
+    let userData = {}
+    db.doc(`/users/${req.user.handle}`).get()
+        .then((doc)=>{
+            if(doc.exists){
+                userData.credentials = doc.data();
+                return db.collection('likes').where('userHandle','==',req.user.handle)
+                .get()
+            }
+        })
+        .then((data)=>{
+            userData.likes=[];
+            data.forEach((doc)=>{
+                userData.likes.push(doc.data())
+            })
+            return res.json(userData)
+        })
+        .catch(err=>{
+            console.error(err)
+            return res.status(500).json({error:err.code})
+        })
+}
+//upload a profile image for user
 exports.uploadImage = (req,res)=>{
     const BusBoy = require('busboy')
     const path = require('path')
@@ -101,22 +143,26 @@ exports.uploadImage = (req,res)=>{
     let imageToBeUploaded = {};
 
     busboy.on('file',(fieldname,file,filename,encoding,mimetype)=>{
-        console.log(fieldname)
-
-        const imageExtention = filename.split('.')[filename.split('.').length - 1]
-        const imageFileName = `${Math.round(Math.random()*10000000000)}.${imageExtention}`;
-        const filePath = path.join(os.tmpdir(),imageFileName);
+        
+        if(mimetype!== 'image/jpeg' && mimetype!== 'image/png'){
+            return res.status(400).json({error: 'Wrong file type submitted'})
+        }
+        const imageExtension = filename.split('.')[filename.split('.').length - 1]
+        imageFileName = `${Math.round(
+            Math.random() * 1000000000000
+          ).toString()}.${imageExtension}`;
+        const filepath = path.join(os.tmpdir(),imageFileName);
         imageToBeUploaded = {filepath, mimetype};
-        file.pipe(fs.createWriteStream(filePath));
+        file.pipe(fs.createWriteStream(filepath));
     })
     busboy.on('finish',()=>{
-        admin.storage().bucket.upload(imageToBeUploaded.filepath,{
+        admin.storage().bucket().upload(imageToBeUploaded.filepath,{
             resumable: false,
             metadata: {
                 metadata:{
                     contentType: imageToBeUploaded.mimetype
-                }
-            }
+                },
+            },
         })
         .then(()=>{
             const imageUrl = `https://firebasestorage.gooogleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`
@@ -130,4 +176,5 @@ exports.uploadImage = (req,res)=>{
             return res.status(500).json({error:err.code})
         })
     })
+    busboy.end(req.rawBody);
 }
