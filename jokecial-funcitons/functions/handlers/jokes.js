@@ -4,7 +4,7 @@ const { db } = require('../util/admin');
 exports.getAllJokes = (req,res)=>{
     db
     .collection('jokes')
-    .orderBy('createdAt','desc')
+    .orderBy('likeCount','desc')
     .get()
     .then(data=>{
 
