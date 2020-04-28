@@ -38,7 +38,7 @@ export class Joke extends Component {
                     to={`/users/${userHandle}`}
                     color="primary"
                     >{userHandle}</Typography>
-                    <Typography variants="body2" color="textSecondary">{dayjs(createdAt.fromNow())}</Typography>
+                    <Typography variants="body2" color="textSecondary">{dayjs(createdAt).fromNow()}</Typography>
                     <Typography variants="body1" >{body}</Typography>
 
                 </CardContent>

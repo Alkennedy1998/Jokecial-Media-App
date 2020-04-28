@@ -205,11 +205,13 @@ exports.uploadImage = (req,res)=>{
         file.pipe(fs.createWriteStream(filepath));
     })
     busboy.on('finish',()=>{
-        admin.storage().bucket().upload(imageToBeUploaded.filepath,{
+        admin.storage().bucket(`${config.storageBucket}`).upload(imageToBeUploaded.filepath,{
             resumable: false,
             metadata: {
                 metadata:{
-                    contentType: imageToBeUploaded.mimetype
+                    contentType: imageToBeUploaded.mimetype,
+                    firebaseStorageDownloadTokens: generatedToken,
+
                 },
             },
         })
