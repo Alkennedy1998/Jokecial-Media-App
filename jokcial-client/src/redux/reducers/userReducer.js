@@ -1,4 +1,4 @@
-import {SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED,LOADING_USER } from '../types'
+import {SET_USER, LIKE_JOKE,UNLIKE_JOKE,SET_AUTHENTICATED, SET_UNAUTHENTICATED,LOADING_USER } from '../types'
 
 
 const initialState={
@@ -29,6 +29,24 @@ export default function(state = initialState,action){
                 ...state,
                 loading:true
             }
+        case LIKE_JOKE:
+            return{
+                ...state,
+                likes:[
+                    ...state.likes,
+                    {
+                        userHandle: state.credentials.handle,
+                        jokeId: action.payload.jokeId
+                    }
+                ]
+            }
+        case UNLIKE_JOKE:
+            return{
+                ...state,
+                likes: state.likes.filter(
+                    like=>like.jokeId !== action.payload.jokeId)
+            }
+        
         default:
             return state
     }

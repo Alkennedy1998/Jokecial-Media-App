@@ -18,7 +18,7 @@ export class Navbar extends Component {
         return (
             <AppBar>
                 <Toolbar className="nav-container">
-                    {authenticated ?(
+                    {true ?(
                         <Fragment>
                             <MyButton tip="Post a Joke!">
                                 <AddIcon/>

@@ -1,26 +1,21 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '@material-ui/core/Grid'
-
+import PropTypes from 'prop-types'
 import Profile from '../components/Profile'
 import Joke from '../components/Joke'
 
+import {connect } from 'react-redux'
+import {getJokes} from '../redux/actions/dataActions'
 class home extends Component {
-    state={
-        jokes: null
-    }
+   
     componentDidMount(){
-        axios.get("/jokes")
-        .then(res=>{
-            this.setState({
-                jokes:res.data
-            })
-        })
-        .catch(err=>console.log(err));
+        this.props.getJokes()
     }
     render() {
-        let recentJokesMarkup = this.state.jokes ? (
-        this.state.jokes.map(joke => <Joke key={joke.jokeId} joke={joke}/>)
+        const {jokes, loading} = this.props.data;
+        let recentJokesMarkup = !loading ? (
+        jokes.map(joke => <Joke key={joke.jokeId} joke={joke}/>)
         ) :<p>Loading...</p>
 
         return (
@@ -36,4 +31,12 @@ class home extends Component {
     }
 }
 
-export default home
+home.propTypes={
+    getJokes:PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+}
+const mapStateToProps = state=>({
+    data:state.data
+})
+
+export default connect(mapStateToProps, {getJokes})(home)
