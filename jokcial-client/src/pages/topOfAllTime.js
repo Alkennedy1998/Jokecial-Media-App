@@ -6,11 +6,11 @@ import Profile from '../components/Profile'
 import Joke from '../components/Joke'
 
 import {connect } from 'react-redux'
-import {getRecentJokes} from '../redux/actions/dataActions'
+import {getJokes} from '../redux/actions/dataActions'
 class home extends Component {
    
     componentDidMount(){
-        this.props.getRecentJokes()
+        this.props.getJokes()
     }
     render() {
         const {jokes, loading} = this.props.data;
@@ -21,7 +21,7 @@ class home extends Component {
         return (
             <Grid container spacing={16}>
                 <Grid item sm={8} xs={12}>
-                    <h1>Most Recent</h1>
+                    <h1 color='primary'>Top of All Time</h1>
                     {recentJokesMarkup}
                 </Grid>
                 <Grid item sm={4} xs={12}>
@@ -33,11 +33,11 @@ class home extends Component {
 }
 
 home.propTypes={
-    getRecentJokes:PropTypes.func.isRequired,
+    getJokes:PropTypes.func.isRequired,
     data: PropTypes.object.isRequired
 }
 const mapStateToProps = state=>({
     data:state.data
 })
 
-export default connect(mapStateToProps, {getRecentJokes})(home)
+export default connect(mapStateToProps, {getJokes})(home)

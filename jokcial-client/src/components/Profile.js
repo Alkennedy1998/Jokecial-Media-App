@@ -94,7 +94,7 @@ class Profile extends Component {
                         <img src={imageUrl} alt="profile" className="profile-image"/>
                         <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange}/>
                 
-                        <MyButton tip="Edit profile picture" onClick={this.handleEditPicutre} btnClassName="button">
+                        <MyButton tip="Edit profile picture" onClick={this.handleEditPicture} btnClassName="button">
                           <EditIcon color='primary'/>
                         </MyButton>
                     </div>

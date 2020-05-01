@@ -1,6 +1,32 @@
 const { db } = require('../util/admin');
 
+exports.getRecentJokes=(req,res)=>{
+    db
+    .collection('jokes')
+    .orderBy('createdAt','desc')
+    .get()
+    .then(data=>{
 
+        let jokes = [];
+
+        data.forEach(doc =>{
+            jokes.push({
+                jokeId: doc.id,
+                body:doc.data().body,
+                userHandle: doc.data().userHandle,
+                createdAt: doc.data().createdAt,
+                commentCount:doc.data().commentCount,
+                likeCount: doc.data().likeCount,
+                userImage: doc.data().userImage
+            });
+        });
+        return res.json(jokes);
+    })
+    .catch((err)=>{
+        console.error(err);
+        res.status(500).json({error:err.code});
+    });
+}
 exports.getAllJokes = (req,res)=>{
     db
     .collection('jokes')

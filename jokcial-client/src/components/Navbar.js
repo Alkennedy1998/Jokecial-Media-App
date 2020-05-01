@@ -7,8 +7,11 @@ import MyButton from '../util/MyButton'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
-import AddIcon from '@material-ui/icons/Add'
+import PostJoke from './PostJoke'
 import HomeIcon from '@material-ui/icons/Home'
+import StarIcon from '@material-ui/icons/Star'
+import TimerIcon from '@material-ui/icons/Timer'
+
 import Notifications from '@material-ui/icons/Notifications'
 
 
@@ -20,12 +23,15 @@ export class Navbar extends Component {
                 <Toolbar className="nav-container">
                     {true ?(
                         <Fragment>
-                            <MyButton tip="Post a Joke!">
-                                <AddIcon/>
-                            </MyButton>
-                            <MyButton tip="Home">
+                            <PostJoke/>
+                            <MyButton tip="Recent">
                                 <Link to='/'>
-                                <HomeIcon/>
+                                <TimerIcon/>
+                                </Link>
+                            </MyButton>
+                            <MyButton tip="Top Posts">
+                                <Link to='/topOfAllTime'>
+                                <StarIcon/>
                                 </Link>
                             </MyButton>
                             <MyButton tip="Notifications">

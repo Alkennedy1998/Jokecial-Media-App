@@ -1,4 +1,4 @@
-import { SET_JOKES,DELETE_JOKE,LIKE_JOKE,UNLIKE_JOKE,LOADING_DATA} from '../types'
+import { SET_JOKES, SET_JOKE,POST_JOKE,DELETE_JOKE,LIKE_JOKE,UNLIKE_JOKE,LOADING_DATA} from '../types'
 
 const initialState={
     jokes:[],
@@ -31,6 +31,16 @@ export default function(state=initialState,action){
             state.jokes.splice(index,1)
             return{
                 ...state
+            }
+        case POST_JOKE:
+            return{
+                ...state,
+                jokes:[action.payload,...state.jokes]
+            }
+        case SET_JOKE:
+            return{
+                ...state,
+                joke:action.payload
             }
             default:
                 return{

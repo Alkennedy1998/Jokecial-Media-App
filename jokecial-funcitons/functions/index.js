@@ -5,12 +5,13 @@ const FBAuth = require('./util/fbAuth')
 
 const {db} = require('./util/admin')
 
-const { getAllJokes, postOneJoke,getJoke,commentOnJoke,likeJoke,unlikeJoke,deleteJoke} = require('./handlers/jokes')
+const { getAllJokes, getRecentJokes,postOneJoke,getJoke,commentOnJoke,likeJoke,unlikeJoke,deleteJoke} = require('./handlers/jokes')
 const{signup,login,uploadImage,getUserDetails,markNotificationsRead,addUserDetails,getAuthenticatedUser} = require('./handlers/users')
 
 
 //Joke route
 app.get('/jokes',getAllJokes)
+app.get('/recentJokes',getRecentJokes)
 app.post('/joke',FBAuth,postOneJoke)
 app.get('/joke/:jokeId',getJoke)
 app.post('/joke/:jokeId/comment',FBAuth,commentOnJoke)

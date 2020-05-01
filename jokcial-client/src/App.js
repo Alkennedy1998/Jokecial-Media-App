@@ -18,6 +18,7 @@ import AuthRoute from './util/AuthRoute'
 import home from './pages/home'
 import login from './pages/login'
 import signup from './pages/signup'
+import topOfAllTime from './pages/topOfAllTime'
 import axios from 'axios'
 
 const theme = createMuiTheme(themeFile)
@@ -45,6 +46,7 @@ function App() {
         <div className="container">
           <Switch>
             <Route exact path="/" component={home}/>
+            <Route exact path="/topOfAllTime" component={topOfAllTime}/>
             <AuthRoute exact path="/login" component={login}/>
             <AuthRoute exact path="/signup" component={signup} />       
           </Switch> 

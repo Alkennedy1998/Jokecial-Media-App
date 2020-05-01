@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import PropTypes from "prop-types"
 import MyButton from '../util/MyButton'
+import JokeDialog from './JokeDialog'
 import ChatIcon from '@material-ui/icons/Chat'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
@@ -91,6 +92,7 @@ export class Joke extends Component {
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} Comments</span>
+                    <JokeDialog jokeId={jokeId} userHandle={userHandle}/>
                 </CardContent>
             </Card>
         )
