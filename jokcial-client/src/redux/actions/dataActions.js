@@ -1,4 +1,4 @@
-import {SET_JOKES,SET_JOKE,STOP_LOADING_UI,SET_ERRORS,LOADING_UI,POST_JOKE,CLEAR_ERRORS,DELETE_JOKE,LOADING_DATA,LIKE_JOKE,UNLIKE_JOKE} from '../types'
+import {SET_JOKES,SUBMIT_COMMENT,SET_JOKE,STOP_LOADING_UI,SET_ERRORS,LOADING_UI,POST_JOKE,CLEAR_ERRORS,DELETE_JOKE,LOADING_DATA,LIKE_JOKE,UNLIKE_JOKE} from '../types'
 import axios from 'axios'
 
 export const getJokes=()=>(dispatch)=>{
@@ -43,7 +43,7 @@ export const postJoke=(newJoke)=>(dispatch)=>{
             type:POST_JOKE,
             payload:res.data
         })
-        dispatch({type:CLEAR_ERRORS})
+        dispatch(clearErrors())
     })
     .catch(err=>{
         dispatch({
@@ -95,5 +95,22 @@ export const getJoke =(jokeId)=>dispatch=>{
             payload:res.data
         })
         dispatch({type:STOP_LOADING_UI})
+    })
+}
+
+export const submitComment = (jokeId,commentData)=>(dispatch)=>{
+    axios.post(`/joke/${jokeId}/comment`,commentData)
+    .then(res=>{
+        dispatch({
+            type:SUBMIT_COMMENT,
+            payload: res.data
+        })
+        dispatch(clearErrors())
+    })
+    .catch(err=>{
+        dispatch({
+            type:SET_ERRORS,
+            payload:err.response.data
+        })
     })
 }

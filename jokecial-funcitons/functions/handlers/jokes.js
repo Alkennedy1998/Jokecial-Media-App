@@ -208,7 +208,7 @@ exports.postOneJoke = (req,res)=>{
                 return res.status(400).json({error: "Joke not liked"})
                 
             }else{
-                return db.doc(`/likes/${data.docs[0].data().id}`).delete()
+                return db.doc(`/likes/${data.docs[0].id}`).delete()
                 .then(()=>{
                     jokeData.likeCount--;
                     return jokeDocument.update({likeCount:jokeData.likeCount})

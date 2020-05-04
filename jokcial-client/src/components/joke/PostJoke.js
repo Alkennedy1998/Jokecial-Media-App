@@ -1,18 +1,15 @@
 import React, { Component,Fragment } from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 import {connect} from 'react-redux'
-import {editUserDetails} from '../redux/actions/userActions'
-import {postJoke,clearErrors} from '../redux/actions/dataActions'
+import {postJoke,clearErrors} from '../../redux/actions/dataActions'
 //MUI stuff
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import EditIcon from '@material-ui/icons/Edit'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import AddIcon from "@material-ui/icons/Add"
 import CloseIcon from "@material-ui/icons/Close"

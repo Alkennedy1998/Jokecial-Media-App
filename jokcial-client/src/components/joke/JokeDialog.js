@@ -1,24 +1,23 @@
 import React, { Component,Fragment } from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 import dayjs from 'dayjs'
 import {Link} from 'react-router-dom'
-
+import Comments from'./Comments'
+import CommentForm from './CommentForm'
 //MUI Stuff
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import EditIcon from '@material-ui/icons/Edit'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import CloseIcon from "@material-ui/icons/Close"
 import UnfoldMore from "@material-ui/icons/UnfoldMore"
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/icons/Close'
+import ChatIcon from '@material-ui/icons/Chat'
+import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
-import {getJoke} from '../redux/actions/dataActions'
-
+import {getJoke} from '../../redux/actions/dataActions'
+import LikeButton from './LikeButton'
 const styles={
     palette: {
         primary: {
@@ -33,6 +32,11 @@ const styles={
           dark: '#b22a00',
           contrastText: '#fff'
         }
+      },
+      expandButton:{
+          position:'absolute',
+          left:'90%'
+
       },
       typography: {
         useNextVariants: true
@@ -94,6 +98,11 @@ const styles={
       },
       dialogContent:{
           padding:20
+      },
+      spinnerDiv:{
+          textAlign:'center',
+          marginTop:50,
+          marginBottom:50
       }
 }
 
@@ -110,39 +119,50 @@ class JokeDialog extends Component{
     }
     render(){
         const{classes,
-            joke:{jokeId,body,createdAt,likeCount,commentCount,userImage,userHandle},UI:{loading}}=this.props
+            joke:{jokeId,body,comments,createdAt,likeCount,commentCount,userImage,userHandle},UI:{loading}}=this.props
 
-        const dialogMarkup = loading?(
-            <CircularProgress size={200}/>
-        ):(
-            <Grid container spacing={16}>
-                <Grid item sm={5}>
-                    <img src={userImage} alt='profile' className={classes.profileImage}/>
-                </Grid>
-                <Grid item sm={7}>
+            const dialogMarkup = loading ? (
+                <div className={classes.spinnerDiv}>
+                  <CircularProgress size={200} thickness={2} />
+                </div>
+              ) : (
+                <Grid container spacing={16}>
+                  <Grid item sm={5}>
+                    <img src={userImage} alt="Profile" className={classes.profileImage} />
+                  </Grid>
+                  <Grid item sm={7}>
                     <Typography
-                        component={Link}
-                        color="primary"
-                        variant="h5"
-                        to={`/users/${userHandle}`}
-                        >
-                            @{userHandle}
-                        </Typography>
-                        <hr className={classes.invisibleSeparator}/>
-                        <Typography variant='body2' color='textSecondary'>
-                            {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
-                        </Typography>
-                        <hr className={classes.invisibleSeparator}/>
-                        <Typography variant='body1'>
-                            {body}
-                        </Typography>
+                      component={Link}
+                      color="primary"
+                      variant="h5"
+                      to={`/users/${userHandle}`}
+                    >
+                      @{userHandle}
+                    </Typography>
+                    <hr className={classes.invisibleSeparator} />
+                    <Typography variant="body2" color="textSecondary">
+                      {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
+                    </Typography>
+                    <hr className={classes.invisibleSeparator} />
+                    <Typography variant="body1">{body}</Typography>  
+                    <LikeButton jokeId={jokeId}/>
+                    
+                    <span>{likeCount} likes</span>  
+                    <MyButton tip='comments'>
+                        <ChatIcon color="primary"/>
+                    </MyButton>
+                    <span>{commentCount} Comments</span>             
+                  </Grid>
+                  <hr className={classes.visibleSeperator}/>
+                  <CommentForm jokeId ={jokeId}/>
+                  <Comments comments={comments}/>
+                
                 </Grid>
-            </Grid>
-        )
+              );
         
         return(
             <Fragment>
-                <MyButton onClick={this.handleOpen} tip="Expand Joke" tipClassName={classes.extendButton}>
+                <MyButton onClick={this.handleOpen} tip="Expand Joke" tipClassName={classes.expandButton}>
                     <UnfoldMore color='primary'/>
                 </MyButton>
                 <Dialog
