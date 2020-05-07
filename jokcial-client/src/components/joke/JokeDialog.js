@@ -16,8 +16,9 @@ import Grid from '@material-ui/core/Grid'
 import ChatIcon from '@material-ui/icons/Chat'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
-import {getJoke} from '../../redux/actions/dataActions'
+import {getJoke,clearErrors} from '../../redux/actions/dataActions'
 import LikeButton from './LikeButton'
+
 const styles={
     palette: {
         primary: {
@@ -116,6 +117,7 @@ class JokeDialog extends Component{
     }
     handleClose=()=>{
         this.setState({open:false})
+        this.props.clearErrors()
     }
     render(){
         const{classes,
@@ -186,7 +188,8 @@ JokeDialog.propTypes={
     getJoke: PropTypes.func.isRequired,
     jokeId : PropTypes.string.isRequired,
     userHandle:PropTypes.string.isRequired,
-    joke:PropTypes.object.isRequired
+    joke:PropTypes.object.isRequired,
+    clearErrors:PropTypes.func.isRequired
 }
 
 const mapStateToProps = state=>({
@@ -195,7 +198,8 @@ const mapStateToProps = state=>({
 })
 
 const mapActionsToProps={
-    getJoke
+    getJoke,
+    clearErrors
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(JokeDialog))

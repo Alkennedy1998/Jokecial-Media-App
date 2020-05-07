@@ -24,7 +24,7 @@ export default function(state=initialState,action){
             let index=state.jokes.findIndex((joke)=>joke.jokeId===action.payload.jokeId)
             state.jokes[index] = action.payload
             if(state.joke.jokeId===action.payload.jokeId){
-                state.scream=action.payload
+                state.joke=action.payload
             }
             return{
                 ...state
@@ -43,9 +43,9 @@ export default function(state=initialState,action){
         case SUBMIT_COMMENT:
             return{
                 ...state,
-                scream:{
+                joke:{
                     ...state.joke,
-                    comments:[action.payload,...state.joke.payload]
+                    comments:[action.payload,...state.joke.comments]
                 }
             }
         case SET_JOKE:

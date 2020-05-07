@@ -11,7 +11,7 @@ import {
   export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios
-      .post('/login', userData)
+      .post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/login', userData)
       .then((res) => {
         setAuthorizationHeader(res.data.token);
         dispatch(getUserData());
@@ -29,7 +29,7 @@ import {
   export const signupUser = (newUserData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios
-      .post('/signup', newUserData)
+      .post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/signup', newUserData)
       .then((res) => {
         setAuthorizationHeader(res.data.token);
         dispatch(getUserData());
@@ -53,7 +53,7 @@ import {
   export const getUserData = () => (dispatch) => {
     dispatch({ type: LOADING_USER });
     axios
-      .get('/user')
+      .get('http://us-central1-jokecial-media-app.cloudfunctions.net/api/user')
       .then((res) => {
         dispatch({
           type: SET_USER,
@@ -66,7 +66,7 @@ import {
   export const uploadImage = (formData) => (dispatch) => {
     dispatch({ type: LOADING_USER });
     axios
-      .post('/user/image', formData)
+      .post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/user/image', formData)
       .then(() => {
         dispatch(getUserData());
       })
@@ -76,7 +76,7 @@ import {
   
  export const editUserDetails=(userDetails)=>(dispatch)=>{
     dispatch({type:LOADING_USER})
-    axios.post('/user',userDetails)
+    axios.post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/user',userDetails)
     .then(()=>{
       dispatch(getUserData())
     })
