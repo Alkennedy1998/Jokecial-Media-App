@@ -5,6 +5,7 @@ import Joke from '../components/joke/Joke'
 import Grid from '@material-ui/core/Grid'
 import JokeSkeleton from '../util/JokeSkeleton'
 
+import ProfileSkeleton from '../util/ProfileSkeleton'
 import StaticProfile from '../components/profile/StaticProfile'
 import {connect} from 'react-redux'
 import {getUserData} from '../redux/actions/dataActions'
@@ -53,7 +54,7 @@ export class user extends Component {
             </Grid>
             <Grid item sm={4} xs={12}>
                 {this.state.profile===null ?(
-                    <p>Loading profile...</p>
+                    <ProfileSkeleton/>
                 ):(
                     <StaticProfile profile={this.state.profile}/>
                 )}

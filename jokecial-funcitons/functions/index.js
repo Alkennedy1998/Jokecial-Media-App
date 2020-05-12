@@ -3,6 +3,8 @@ const app = require('express')();
 
 const FBAuth = require('./util/fbAuth')
 
+const cors = require('cors')
+app.use(cors())
 const {db} = require('./util/admin')
 
 const { getAllJokes, getRecentJokes,postOneJoke,getJoke,commentOnJoke,likeJoke,unlikeJoke,deleteJoke} = require('./handlers/jokes')

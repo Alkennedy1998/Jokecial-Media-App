@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 import Profile from '../components/profile/Profile'
 import Joke from '../components/joke/Joke'
+
 import JokeSkeleton from '../util/JokeSkeleton'
 import {connect } from 'react-redux'
 import {getRecentJokes} from '../redux/actions/dataActions'
