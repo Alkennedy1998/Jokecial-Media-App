@@ -3,16 +3,23 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import Joke from '../components/joke/Joke'
 import Grid from '@material-ui/core/Grid'
+import JokeSkeleton from '../util/JokeSkeleton'
+
 import StaticProfile from '../components/profile/StaticProfile'
 import {connect} from 'react-redux'
 import {getUserData} from '../redux/actions/dataActions'
 export class user extends Component {
 
     state ={
-        profile:null
+        profile:null,
+        jokeIdParam : null
     }
     componentDidMount(){
         const handle = this.props.match.params.handle
+        const jokeId = this.props.match.params.jokeId
+
+        if(jokeId) this.setState({jokeIdParam:jokeId})
+
         this.props.getUserData(handle)
         axios.get(`/user/${handle}`)
         .then(res=>{
@@ -25,13 +32,19 @@ export class user extends Component {
     render() {
 
         const {jokes,loading} = this.props.data
-
+        const {jokeIdParam} = this.state
         const jokesMarkup = loading?(
-            <p>Loading data...</p>
+            <JokeSkeleton/>
         ):jokes===null ? (
             <p>No jokes from this user</p>
-        ):(
+        ): !jokeIdParam ? (
             jokes.map(joke=><Joke key={joke.jokeId} joke={joke}/>)
+        ):(
+            jokes.map(joke=>{
+                if(joke.jokeId!==jokeIdParam)
+                    return <Joke key={joke.jokeId} joke={joke}/>
+                else return <Joke key={joke.jokeId} joke={joke} openDialog/>
+            })
         )
         return (
             <Grid container spacing={16}>

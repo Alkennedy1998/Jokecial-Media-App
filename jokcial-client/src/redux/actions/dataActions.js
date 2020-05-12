@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const getJokes=()=>(dispatch)=>{
     dispatch({type: LOADING_DATA})
-    axios.get('http://us-central1-jokecial-media-app.cloudfunctions.net/api/jokes')
+    axios.get('/jokes')
     .then(res=>{
         dispatch({
             type:SET_JOKES,
@@ -20,7 +20,7 @@ export const getJokes=()=>(dispatch)=>{
 
 export const getRecentJokes=()=>(dispatch)=>{
     dispatch({type: LOADING_DATA})
-    axios.get('http://us-central1-jokecial-media-app.cloudfunctions.net/api/recentJokes')
+    axios.get('/recentJokes')
     .then(res=>{
         dispatch({
             type:SET_JOKES,
@@ -37,7 +37,7 @@ export const getRecentJokes=()=>(dispatch)=>{
 
 export const postJoke=(newJoke)=>(dispatch)=>{
     dispatch({type: LOADING_UI})
-    axios.post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/joke',newJoke)
+    axios.post('/joke',newJoke)
     .then(res=>{
         dispatch({
             type:POST_JOKE,
@@ -71,7 +71,7 @@ export const getUserData = (userHandle)=>dispatch=>{
     })
 }
 export const likeJoke =(jokeId)=>dispatch=>{
-    axios.get(`http://us-central1-jokecial-media-app.cloudfunctions.net/api/joke/${jokeId}/like`)
+    axios.get(`/joke/${jokeId}/like`)
     .then(res=>{
         dispatch({
             type:LIKE_JOKE,
@@ -82,7 +82,7 @@ export const likeJoke =(jokeId)=>dispatch=>{
 }
 
 export const unlikeJoke =(jokeId)=>dispatch=>{
-    axios.get(`http://us-central1-jokecial-media-app.cloudfunctions.net/api/joke/${jokeId}/unlike`)
+    axios.get(`/joke/${jokeId}/unlike`)
     .then(res=>{
         dispatch({
             type:UNLIKE_JOKE,
@@ -93,7 +93,7 @@ export const unlikeJoke =(jokeId)=>dispatch=>{
 }
 
 export const deleteJoke = (jokeId)=>(dispatch)=>{
-    axios.delete(`http://us-central1-jokecial-media-app.cloudfunctions.net/api/joke/${jokeId}`)
+    axios.delete(`/joke/${jokeId}`)
     .then(()=>{
         dispatch({type:DELETE_JOKE, payload:jokeId})
     })
@@ -106,7 +106,7 @@ export const clearErrors=()=>dispatch=>{
 
 export const getJoke =(jokeId)=>dispatch=>{
     dispatch({type:LOADING_UI})
-    axios.get(`http://us-central1-jokecial-media-app.cloudfunctions.net/api/joke/${jokeId}`)
+    axios.get(`/joke/${jokeId}`)
     .then(res=>{
         dispatch({
             type:SET_JOKE,
@@ -117,7 +117,7 @@ export const getJoke =(jokeId)=>dispatch=>{
 }
 
 export const submitComment = (jokeId,commentData)=>(dispatch)=>{
-    axios.post(`http://us-central1-jokecial-media-app.cloudfunctions.net/api/joke/${jokeId}/comment`,commentData)
+    axios.post(`/joke/${jokeId}/comment`,commentData)
     .then(res=>{
         dispatch({
             type:SUBMIT_COMMENT,

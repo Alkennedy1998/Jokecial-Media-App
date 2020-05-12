@@ -4,14 +4,15 @@ import {
     CLEAR_ERRORS,
     LOADING_UI,
     SET_UNAUTHENTICATED,
-    LOADING_USER
+    LOADING_USER,
+    MARK_NOTIFICATIONS_READ
   } from '../types';
   import axios from 'axios';
   
   export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios
-      .post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/login', userData)
+      .post('/login', userData)
       .then((res) => {
         setAuthorizationHeader(res.data.token);
         dispatch(getUserData());
@@ -29,7 +30,7 @@ import {
   export const signupUser = (newUserData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios
-      .post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/signup', newUserData)
+      .post('/signup', newUserData)
       .then((res) => {
         setAuthorizationHeader(res.data.token);
         dispatch(getUserData());
@@ -53,7 +54,7 @@ import {
   export const getUserData = () => (dispatch) => {
     dispatch({ type: LOADING_USER });
     axios
-      .get('http://us-central1-jokecial-media-app.cloudfunctions.net/api/user')
+      .get('/user')
       .then((res) => {
         dispatch({
           type: SET_USER,
@@ -66,7 +67,7 @@ import {
   export const uploadImage = (formData) => (dispatch) => {
     dispatch({ type: LOADING_USER });
     axios
-      .post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/user/image', formData)
+      .post('/user/image', formData)
       .then(() => {
         dispatch(getUserData());
       })
@@ -76,11 +77,21 @@ import {
   
  export const editUserDetails=(userDetails)=>(dispatch)=>{
     dispatch({type:LOADING_USER})
-    axios.post('http://us-central1-jokecial-media-app.cloudfunctions.net/api/user',userDetails)
+    axios.post('/user',userDetails)
     .then(()=>{
       dispatch(getUserData())
     })
     .catch(err=>console.log(err))
+ }
+
+ export const markNotificationsRead = (notificationIds)=>dispatch=>{
+   axios.post('/notifications',notificationIds)
+   .then(res=>{
+     dispatch({
+       type:MARK_NOTIFICATIONS_READ
+     })
+   })
+   .catch(err=>console.log(err))
  }
   const setAuthorizationHeader = (token) => {
     const FBIdToken = `Bearer ${token}`;

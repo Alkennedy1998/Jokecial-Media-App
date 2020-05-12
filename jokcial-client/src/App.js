@@ -50,7 +50,8 @@ function App() {
             <Route exact path="/topOfAllTime" component={topOfAllTime}/>
             <AuthRoute exact path="/login" component={login}/>
             <AuthRoute exact path="/signup" component={signup} /> 
-            <Route exact path="/users/:handle" component={user}/>      
+            <Route exact path="/users/:handle" component={user}/> 
+            <Route exact path="/users/:handle/joke/:jokeId" component={user}/>  
           </Switch> 
         </div> 
       </Router>

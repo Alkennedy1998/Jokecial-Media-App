@@ -59,7 +59,7 @@ export class Joke extends Component {
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} Comments</span>
-                    <JokeDialog jokeId={jokeId} userHandle={userHandle}/>
+                    <JokeDialog jokeId={jokeId} userHandle={userHandle} openDialog={this.props.openDialog}/>
                 </CardContent>
             </Card>
         )
@@ -70,7 +70,8 @@ Joke.propType={
  
     user:PropTypes.object.isRequired,
     joke:PropTypes.object.isRequired,
-    classes:PropTypes.object.isRequired
+    classes:PropTypes.object.isRequired,
+    openDialog: PropTypes.bool
 
 
 }

@@ -11,7 +11,7 @@ import PostJoke from '../joke/PostJoke'
 import StarIcon from '@material-ui/icons/Star'
 import TimerIcon from '@material-ui/icons/Timer'
 
-import Notifications from '@material-ui/icons/Notifications'
+import Notifications from './Notifications'
 
 
 export class Navbar extends Component {
@@ -20,7 +20,7 @@ export class Navbar extends Component {
         return (
             <AppBar>
                 <Toolbar className="nav-container">
-                    {true ?(
+                    {authenticated ?(
                         <Fragment>
                             <PostJoke/>
                             <MyButton tip="Recent">
@@ -33,9 +33,7 @@ export class Navbar extends Component {
                                 <StarIcon/>
                                 </Link>
                             </MyButton>
-                            <MyButton tip="Notifications">
                                 <Notifications/>
-                            </MyButton>
                         </Fragment>
                     ):(
                         <Fragment>
@@ -54,6 +52,6 @@ Navbar.propTypes={
     authenticated: PropTypes.bool.isRequired
 }
 const mapStateToProps = (state)=>({
-    autenticated: state.user.authenticated
+    authenticated: state.user.authenticated
 })
 export default connect(mapStateToProps)(Navbar) 
